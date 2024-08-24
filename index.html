@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>True or false?</title>
+  <style type="text/css" media="all">
+    body {
+      background: black !important;
+      width: 100%;
+      height: auto;
+    }
+    .warn-main {
+      color: white;
+      border:.5px solid gray;
+    }
+    .btn-start:hover,
+    .btn-start:active {
+      background: red !important;
+    }
+    
+  </style>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+  <!--spiner start-->
+  <div class="w-100 vh-100 justify-content-center align-items-center position-fixed spinner-container" style="top:0;left:0;display:flex;">
+    <div class="spinner-grow text-danger" role="status"></div>
+  </div>
+  <!--spiner end-->
+  
+  <!--popup warning start-->
+  <div class="w-100 vh-100 justify-content-center align-items-center position-fixed warn-popup" style="top:0;left:0;display:none;">
+    <div class="d-flex text-center px-3 justify-content-center flex-column align-items-center warn-main bg-transparent" style="width:300px;height:300px;">
+      <h3>⚠️ Warning ⚠️</h3>
+      <p class="m-0">Game ini menyebabkan detak jantung meningkat, keringat dingin, skibidi sigma, berakibat pingsan, mainkan diatas pengawasan orang dewasa, contohnya sigma gyat.</p>
+      <button type="button" class="bg-transparent px-3 py-2 mt-3 text-light btn-start" style="border:.5px solid gray;">OK</button>
+    </div>
+  </div>
+  
+  <!--popup warning end-->
+  
+  <!-- audio management -->
+  <audio id="audio-bs" controls loop hidden>
+    <source src="backsound.mp3" type="audio/mpeg" />
+  </audio>
+  
+    <script>
+      setTimeout(() => {
+        document.querySelector('.spinner-container').style.display = "none"
+        document.querySelector('.warn-popup').style.display = "flex"
+        document.querySelector('#audio-bs').play()
+      }, 2500)
+      
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
