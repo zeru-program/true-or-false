@@ -47,12 +47,22 @@
   </audio>
   
     <script>
-      setTimeout(() => {
-        document.querySelector('.spinner-container').style.display = "none"
-        document.querySelector('.warn-popup').style.display = "flex"
-        document.querySelector('#audio-bs').play()
-      }, 2500)
-      
+      fetch('backsound.mp3')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.blob();
+        })
+        .then(blob => {
+          document.querySelector('.spinner-container').style.display = 'none';
+          document.querySelector('.warn-popup').style.display = "flex"
+          document.querySelector('#audio-bs').play()
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
