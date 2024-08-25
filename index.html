@@ -10,6 +10,7 @@
       background: black !important;
       width: 100%;
       height: auto;
+      overflow: hidden;
     }
     .warn-main {
       color: white;
@@ -19,7 +20,81 @@
     .btn-start:active {
       background: red !important;
     }
-    
+    .warn-main {
+      animation: blink-animation 2s steps(25, start) infinite;
+     -webkit-animation: blink-animation 5s steps(50, start) infinite;
+    }
+    @keyframes blink-animation {
+        to {
+          visibility: hidden;
+        }
+      }
+      @-webkit-keyframes blink-animation {
+        to {
+          visibility: hidden;
+        }
+      }
+      .img-p {
+        width: 80%;
+        opacity: .2;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        animation: blink-animation 2s steps(25, start) infinite;
+       -webkit-animation: blink-animation 5s steps(50, start) infinite; 
+       }
+      .img-pb {
+        width: 80%;
+        opacity: .2;
+        position: absolute;
+        bottom: -50%;
+        left: 0;
+        z-index: -1;
+        animation: blink-animation 2s steps(25, start) infinite;
+       -webkit-animation: blink-animation 5s steps(50, start) infinite; 
+       }
+      .blink-js, .img-js {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 99999;
+        width: 100%;
+        height: 100%;
+      }
+      .blink-js {
+        background: white;
+        animation: blinkJs .1s infinite linear;
+      }
+      @keyframes blinkJs {
+        to {
+          opacity: 0;
+        }
+      }
+      main {
+        display: none;
+        overflow: hidden;
+      }
+      .player-info-container {
+        position: fixed;
+        right: 0;
+        top: 0;
+        margin: 10px;
+        display: none;
+      }
+      .btn-level {
+        background: transparent;
+        border: .5px solid gray;
+        color: gray;
+        padding: 5px;
+      }
+      .btn-ft {
+        background: transparent;
+        border: .5px solid gray;
+        color: white;
+        padding: 5px;
+        padding-inline: 20px;
+      }
   </style>
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
@@ -36,15 +111,49 @@
     <div class="d-flex text-center px-3 justify-content-center flex-column align-items-center warn-main bg-transparent" style="width:300px;height:300px;">
       <h3>⚠️ Warning ⚠️</h3>
       <p class="m-0">Game ini menyebabkan detak jantung meningkat, keringat dingin, skibidi sigma, berakibat pingsan, mainkan diatas pengawasan orang dewasa, contohnya sigma gyat.</p>
-      <button type="button" class="bg-transparent px-3 py-2 mt-3 text-light btn-start" style="border:.5px solid gray;">OK</button>
+      <button type="button" class="bg-transparent px-3 py-2 mt-3 text-light btn-start" style="border:.5px solid gray;" onclick="gameStart()">OK</button>
     </div>
   </div>
-  
   <!--popup warning end-->
+  
+  <!--players info start-->
+  <div class="player-info-container text-light flex-column">
+    <div class="d-flex gap-2">
+    <p class="m-0">Player</p>
+    <h5 class="m-0">?</h5>
+    </div>
+    <div class="d-flex gap-2">
+    <img src="koin.svg" style="width:20px" alt="">
+    <p class="m-0">9999</p>
+    </div>
+  </div>
+  <!--players info end-->
+  
+  <main class="m-0 w-100 justify-content-center vh-100">
+    <img src="p1.jpeg" class="img-p" id="img-p" alt="" />
+    <div class="d-flex justify-content-center align-items-center mode-con" style="width:300px">
+      <div class="d-flex mt-5 gap-3 justify-content-center flex-wrap">
+        <button class="btn-level" onclick="modeSelect(0)">easy mode</button>
+        <button class="btn-level" onclick="modeSelect(1)">middle mode</button>
+        <button class="btn-level" onclick="modeSelect(2)">hard mode</button>
+        <button class="btn-level" onclick="modeSelect(3)">extreme mode</button>
+      </div>
+    </div>
+    <div class="text-light flex-column text-center justify-content-center align-items-center px-3" style="display:none" id="question-con">
+      <p class="m-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi, autem.</p>
+      <div class="d-flex gap-3 mt-3">
+        <button class="btn-ft" onclick="checkJawaban(0)">False</button>
+        <button class="btn-ft" onclick="checkJawaban(1)">True</button>
+      </div>
+    </div>
+  </main>
   
   <!-- audio management -->
   <audio id="audio-bs" controls loop hidden>
     <source src="backsound.mp3" type="audio/mpeg" />
+  </audio>
+  <audio id="audio-js" controls hidden>
+    <source src="jumpscarecut.mp3" type="audio/mpeg" />
   </audio>
   
     <script>
@@ -67,6 +176,50 @@
           document.querySelector('#audio-bs').play()
           document.querySelector('.button-start').style.display = "none"
           document.querySelector('.warn-popup').style.display = "flex"
+        }
+        
+        function gameStart() {
+          document.querySelector('.warn-popup').style.display = "none"
+          document.querySelector('main').style.display = "flex"
+          document.querySelector('.player-info-container').style.display = "flex"
+        }
+        
+        function jumpscare() {
+          imgJsArray = ["j1.jpeg", "j2.jpeg", "j3.jpeg", "j4.jpeg", "j5.jpeg"]
+         document.querySelector('#audio-js').play()
+         const imgJs = document.createElement("img")
+         imgJs.src = imgJsArray[Math.floor(Math.random() * imgJsArray.length)];
+         imgJs.classList.add("img-js")
+         const blinkJs = document.createElement("div")
+         blinkJs.classList.add("blink-js")
+         document.querySelector('main').append(imgJs)
+         document.querySelector('main').append(blinkJs)
+         setTimeout(() => {
+           document.querySelector('.img-js').remove()
+           document.querySelector('.blink-js').remove()
+         }, 2300)
+        }
+        
+        function modeSelect(mode) {
+          document.querySelector('.spinner-container').style.display = 'flex';
+          document.querySelector('.player-info-container').style.display = "none"
+          document.querySelector('main').style.display = "none"
+          
+        setTimeout(() => {
+          document.querySelector('.spinner-container').style.display = 'none';
+          document.querySelector('.player-info-container').style.display = "flex"
+          document.querySelector('main').style.display = "flex"
+          document.querySelector('.mode-con').remove()
+          document.querySelector('#img-p').classList.remove("img-p")
+          document.querySelector('#img-p').classList.add("img-pb")
+          document.querySelector('#question-con').style.display = "flex"
+          }, 1500)
+        }
+        
+        function checkJawaban(ft) {
+          if (ft == 0) {
+            jumpscare()
+          }
         }
 
     </script>
