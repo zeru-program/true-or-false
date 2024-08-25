@@ -98,7 +98,11 @@ function showRandomQuestion() {
     document.querySelector(".ipt-true-answer").value = questionData.answer;
 }
 var pointUserNow = localStorage.getItem("point");
-document.getElementById("point").innerText = pointUserNow;
+if (pointUserNow) {
+  document.getElementById("point").innerText = pointUserNow;
+} else {
+  document.getElementById("point").innerText = 0;
+}
 
 function addPoint() {
     var p = parseInt(document.getElementById("point").innerText);
