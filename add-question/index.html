@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>True or False?</title>
+  <style type="text/css" media="all">
+    body, form {
+      background: black;
+      display: flex;
+      justify-content: center;
+      height: 100vh;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      color: white;
+      gap: 5px;
+    }
+    .ipt {
+      background: transparent;
+      color: white;
+      padding: 10px;
+      border: 1px solid gray;
+    }
+    .btn {
+      background: transparent;
+      color: white;
+      padding: 10px;
+      margin-top: 20px;
+      border: 1px solid red;
+    }
+  </style>
+</head>
+<body>
+  <form id="form">
+    <h1>Add a question</h1>
+    <select name="" required class="ipt" id="mode-ipt">
+      <option value="" hidden>Input the game mode</option>
+      <option value="easy">Easy</option>
+      <option value="mid">Middle</option>
+      <option value="hard">Hard</option>
+      <option value="extreme">Extreme</option>
+    </select>
+    <input type="text" class="ipt" id="question-ipt" placeholder="input the question" required />
+    <select name="" required class="ipt" id="answer-ipt">
+      <option value="" hidden>Input the answer</option>
+      <option value="true">True</option>
+      <option value="false">False</option>
+    </select>
+    <button type="submit" class="btn">Buat pertanyaan</button>
+  </form>
+  
+  <script type="text/javascript">
+    document.getElementById("form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      getLocalIPs(submit);
+    });
+
+    function submit(ip) {
+      const mode = document.getElementById("mode-ipt").value;
+      const question = document.getElementById("question-ipt").value;
+      const answer = document.getElementById("answer-ipt").value;
+      
+      const data = {
+        ip_user: ip,
+        question: question,
+        answer: answer,
+        mode: mode,
+        created_at: new Date().toISOString()
+      };
+
+      console.log(data);
+
+      // Ganti URL di sini dengan endpoint yang sesuai
+      const db = "https://trueorfalse-f0c6d-default-rtdb.firebaseio.com/";
+
+      fetch(db + mode + ".json", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        if (response.ok) {
+          alert("Pertanyaan berhasil dibuat!");
+        } else {
+          alert("Gagal mengirim data, coba lagi.");
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
+    }
+
+    function getLocalIPs(callback) {
+      const ips = [];
+      const RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
+      const pc = new RTCPeerConnection({
+        iceServers: []
+      });
+      const noop = function() {};
+      pc.createDataChannel('');
+      pc.createOffer(pc.setLocalDescription.bind(pc), noop);
+      pc.onicecandidate = function(event) {
+        if (!event || !event.candidate) return;
+        const ipMatch = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(event.candidate.candidate);
+        if (ipMatch) {
+          const ip = ipMatch[1];
+          if (!ips.includes(ip)) {
+            ips.push(ip);
+            callback(ip);
+          }
+        }
+      };
+    }
+  </script>
+</body>
+</html>

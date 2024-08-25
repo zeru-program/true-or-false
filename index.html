@@ -81,6 +81,8 @@
         top: 0;
         margin: 10px;
         display: none;
+        justify-content: end;
+        align-items: end;
       }
       .btn-level {
         background: transparent;
@@ -94,6 +96,13 @@
         color: white;
         padding: 5px;
         padding-inline: 20px;
+      }
+      .btn-reedem {
+        background: transparent;
+        border: .5px solid gray;
+        color: white;
+        padding: 5px;
+        margin-top: 5px;
       }
   </style>
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -124,8 +133,9 @@
     </div>
     <div class="d-flex gap-2">
     <img src="koin.svg" style="width:20px" alt="">
-    <p class="m-0">9999</p>
+    <p class="m-0" id="point">0</p>
     </div>
+    <button class="btn-reedem" onclick="reedemShow()">Reedem code</button>
   </div>
   <!--players info end-->
   
@@ -140,10 +150,11 @@
       </div>
     </div>
     <div class="text-light flex-column text-center justify-content-center align-items-center px-3" style="display:none" id="question-con">
-      <p class="m-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi, autem.</p>
+      <p class="m-0" id="question-text"></p>
       <div class="d-flex gap-3 mt-3">
-        <button class="btn-ft" onclick="checkJawaban(0)">False</button>
-        <button class="btn-ft" onclick="checkJawaban(1)">True</button>
+        <button class="btn-ft" onclick="checkJawaban('false')">False</button>
+        <button class="btn-ft" onclick="checkJawaban('true')">True</button>
+        <input type="text" name="" class="ipt-true-answer" hidden>
       </div>
     </div>
   </main>
@@ -156,73 +167,7 @@
     <source src="jumpscarecut.mp3" type="audio/mpeg" />
   </audio>
   
-    <script>
-      fetch('backsound.mp3')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.blob();
-        })
-        .then(blob => {
-          document.querySelector('.spinner-container').style.display = 'none';
-          document.querySelector('.button-start').style.display = "flex"
-        })
-        .catch(error => {
-            console.error('There has been a problem with your fetch operation:', error);
-        });
-        
-        function startSetup() {
-          document.querySelector('#audio-bs').play()
-          document.querySelector('.button-start').style.display = "none"
-          document.querySelector('.warn-popup').style.display = "flex"
-        }
-        
-        function gameStart() {
-          document.querySelector('.warn-popup').style.display = "none"
-          document.querySelector('main').style.display = "flex"
-          document.querySelector('.player-info-container').style.display = "flex"
-        }
-        
-        function jumpscare() {
-          imgJsArray = ["j1.jpeg", "j2.jpeg", "j3.jpeg", "j4.jpeg", "j5.jpeg"]
-         document.querySelector('#audio-js').play()
-         const imgJs = document.createElement("img")
-         imgJs.src = imgJsArray[Math.floor(Math.random() * imgJsArray.length)];
-         imgJs.classList.add("img-js")
-         const blinkJs = document.createElement("div")
-         blinkJs.classList.add("blink-js")
-         document.querySelector('main').append(imgJs)
-         document.querySelector('main').append(blinkJs)
-         setTimeout(() => {
-           document.querySelector('.img-js').remove()
-           document.querySelector('.blink-js').remove()
-         }, 2300)
-        }
-        
-        function modeSelect(mode) {
-          document.querySelector('.spinner-container').style.display = 'flex';
-          document.querySelector('.player-info-container').style.display = "none"
-          document.querySelector('main').style.display = "none"
-          
-        setTimeout(() => {
-          document.querySelector('.spinner-container').style.display = 'none';
-          document.querySelector('.player-info-container').style.display = "flex"
-          document.querySelector('main').style.display = "flex"
-          document.querySelector('.mode-con').remove()
-          document.querySelector('#img-p').classList.remove("img-p")
-          document.querySelector('#img-p').classList.add("img-pb")
-          document.querySelector('#question-con').style.display = "flex"
-          }, 1500)
-        }
-        
-        function checkJawaban(ft) {
-          if (ft == 0) {
-            jumpscare()
-          }
-        }
-
-    </script>
+    <script src="main.js" type="text/javascript" charset="utf-8"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
