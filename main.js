@@ -101,9 +101,8 @@ var pointUserNow = localStorage.getItem("point");
 if (pointUserNow) {
   document.getElementById("point").innerText = pointUserNow;
 } else {
-  document.getElementById("point").innerText = 0;
+  document.getElementById("point").innerText = "0";
 }
-
 function addPoint() {
     var p = parseInt(document.getElementById("point").innerText);
     var pAdded = p + 2;
